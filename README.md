@@ -1,4 +1,4 @@
-### Write an application for the input of calories
+### Calories tracker web app
 * The user must be able to create an account and log in
 * When logged in, the user can see a list of his meals and calories (the user enters calories manually, no auto calculations), and should be able to edit and delete
 * Each entry has a date, time, text, and number of calories
