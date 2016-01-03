@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-12">
+
+    <div class="well bs-component">
+
+      <%= form_for(:session, url: login_path, html: {class: "form-horizontal"}) do |f| %>
+        <fieldset>
+        <legend>Login</legend>
+
+        <div class="form-group">
+          <label class="col-md-1 control-label">Username</label>
+          <div class="col-md-11">
+            <%= f.text_field :username, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="inputPassword" class="col-md-1 control-label">Password</label>
+          <div class="col-md-11">
+            <%= f.password_field :password, class: "form-control" %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-12">
+            <%= f.submit "Login", class: "btn btn-primary btn-block" %>
+          </div>
+        </div>
+
+        </fieldset>
+
+      <% end %>
+
+    </div>
+
+    <div class="text-right">
+      <%= link_to "No account? Signup", users_new_path %>
+    </div>
+
+  </div>
+</div>
