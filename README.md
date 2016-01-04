@@ -3,7 +3,7 @@
 * When logged in, the user can see a list of his meals and calories (the user enters calories manually, no auto calculations)... (DONE)
 * ...and should be able to edit and delete (TO-DO)
 * Each entry has a date, time, text, and number of calories (DONE)
-* Filter by dates from-to, time from-to (e.g., how much calories have I had for lunch each day in the last month, if lunch is between 12:00 and 15:00)
+* Filter by dates from-to, time from-to (e.g., how much calories have I had for lunch each day in the last month, if lunch is between 12:00 and 15:00) (TO-DO)
 * User setting – Expected number of calories per day: When displayed, it goes green if the total for that day is less than the expected number of calories per day, otherwise goes red (DONE)
 * The back-end must be in Ruby on Rails (DONE)
 * Minimal UI/UX design is needed (DONE)
