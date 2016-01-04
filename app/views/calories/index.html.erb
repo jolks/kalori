@@ -1,6 +1,112 @@
 <div class="row">
-  <div class="col-md-12">
-    <%= link_to "Logout", logout_path, method: "delete" %>
-    
+  <!-- Source: http://getbootstrap.com/css/#grid-options -->
+  <!--
+    Size of everything outside the box is maintained till medium devices.
+    Anything smaller than the medium devices, it becomes responsive.
+  -->
+  <div class="col-md-4"></div>
+  <div class="col-md-4">
+    <!-- Size of everything within the box is maintained till extra small devices -->
+    <div class="col-xs-6 text-left">
+      <!--
+        For green, background-color: #adff5f
+        For red, background-color: #dd1919; color: white
+      -->
+      <input type="text" class="form-control" id="expected_calories" onchange="update_expected_calories();" placeholder="Expected Calories" style="">
+    </div>
+    <div class="col-xs-6 text-right">
+      <%= link_to logout_path, method: "delete", class: "btn btn-default" do %>
+        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+      <% end %>
+    </div>
+
+    <div class="calories-list col-xs-12">
+      <ul class="list-group" id="calories_index">
+        <% @calories.each do |calorie| %>
+          <li class="list-group-item"><%= calorie.description %> (<%= calorie.value %>)</li>
+        <% end %>
+      </ul>
+    </div>
+
+    <div class="col-xs-12">
+      <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#addCalorie">+</button>
+    </div>
+
+    <div class="modal fade" id="addCalorie" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Enter Calorie</h4>
+          </div>
+          <div class="modal-body">
+
+            <div class="form-group">
+              <label>Number of Calories</label>
+              <input type="number" class="form-control" id="calorie_value">
+            </div>
+
+            <div class="form-group">
+              <label>Description</label>
+              <input type="text" class="form-control" id="calorie_description">
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick="save_calorie();" data-dismiss="modal">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
+  <div class="col-md-4"></div>
 </div>
+<script>
+  $.get("/api/calories/expected/<%= @current_user.id %>", {api_key: "<%= @current_user.api_key %>"}, function(resp) {
+    //console.log(resp);
+    $('#expected_calories').val(resp['expected_calories']);
+    check_threshold();
+  });
+
+  function update_expected_calories() {
+    var expected_calories = $('#expected_calories').val();
+    //console.log(expected_calories);
+    $.post("/api/calories/expected/<%= @current_user.id %>", {
+      api_key: "<%= @current_user.api_key %>",
+      total_expected_calories: expected_calories
+    }, function(resp) {
+      //console.log(resp);
+      check_threshold();
+    });
+  }
+
+  function save_calorie() {
+    var description = $('#calorie_description').val();
+    var value = $('#calorie_value').val();
+    $.post("/api/calories/<%= @current_user.id %>", {
+      api_key: "<%= @current_user.api_key %>",
+      description: description,
+      value: value
+    }, function(resp) {
+      //console.log(resp);
+      $('#calories_index').append('<li class="list-group-item">' + resp['description'] + ' (' + resp['value'] + ')</li>');
+      check_threshold();
+    });
+  }
+
+  function check_threshold() {
+    $.get("/api/calories/exceed/<%= @current_user.id %>", {api_key: "<%= @current_user.api_key %>"}, function(resp) {
+      //console.log(resp);
+      if(resp['exceed']) {
+        //console.log('true');
+        $('#expected_calories').attr('style', 'background-color: #dd1919; color: white');
+      }
+      else {
+        //console.log('false');
+        $('#expected_calories').attr('style', 'background-color: #adff5f');
+      }
+    });
+  }
+</script>

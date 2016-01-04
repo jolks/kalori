@@ -1,11 +1,12 @@
 ### Calories tracker web app
-* The user must be able to create an account and log in
-* When logged in, the user can see a list of his meals and calories (the user enters calories manually, no auto calculations), and should be able to edit and delete
-* Each entry has a date, time, text, and number of calories
+* The user must be able to create an account and log in (DONE)
+* When logged in, the user can see a list of his meals and calories (the user enters calories manually, no auto calculations)... (DONE)
+* ...and should be able to edit and delete (TO-DO)
+* Each entry has a date, time, text, and number of calories (DONE)
 * Filter by dates from-to, time from-to (e.g., how much calories have I had for lunch each day in the last month, if lunch is between 12:00 and 15:00)
-* User setting – Expected number of calories per day: When displayed, it goes green if the total for that day is less than the expected number of calories per day, otherwise goes red
-* The back-end must be in Ruby on Rails
-* Minimal UI/UX design is needed
-* Most actions need to be done client side using AJAX, refreshing the page is not acceptable
-* REST API. Make it possible to perform all user actions via the API, including authentication.
-* Write tests! Decide which areas are worth testing and which kind of tests (unit, integration etc.) to utilize.
+* User setting – Expected number of calories per day: When displayed, it goes green if the total for that day is less than the expected number of calories per day, otherwise goes red (DONE)
+* The back-end must be in Ruby on Rails (DONE)
+* Minimal UI/UX design is needed (DONE)
+* Most actions need to be done client side using AJAX, refreshing the page is not acceptable (DONE)
+* REST API. Make it possible to perform all user actions via the API, including authentication. (DONE)
+* Write tests! Decide which areas are worth testing and which kind of tests (unit, integration etc.) to utilize. (TO-DO)

@@ -11,7 +11,11 @@ Rails.application.routes.draw do
   post 'users/new' => 'users#create'
 
   get 'index' => 'calories#index'
+  get '/api/calories/exceed/:user_id' => 'calories#exceed_expected_calories'
   get '/api/calories/:user_id' => 'calories#get_all_calories'
+  post '/api/calories/:user_id' => 'calories#create_calorie'
+  get '/api/calories/expected/:user_id' => 'calories#get_expected_calories'
+  post '/api/calories/expected/:user_id' => 'calories#update_expected_calories'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
