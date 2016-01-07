@@ -143,7 +143,7 @@
       );
 
       // Update calorie datetime
-      var str_dt = resp['updated_at'];
+      var str_dt = resp['created_at'];
       str_dt = str_dt.replace(/T/g, " ");
       str_dt = str_dt.replace(/\.\d+/g, " ");
       $('#calorie_dt' + calorie_id).html(str_dt);
@@ -177,7 +177,7 @@
       value: value
     }, function(resp) {
       //console.log(resp);
-      var str_dt = resp['updated_at'];
+      var str_dt = resp['created_at'];
       str_dt = str_dt.replace(/T/g, " ");
       str_dt = str_dt.replace(/\.\d+/g, " ");
 
