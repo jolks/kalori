@@ -20,6 +20,10 @@
       <% end %>
     </div>
 
+    <!-- BEGIN filter -->
+
+    <!-- END filter -->
+
     <div class="calories-list col-xs-12">
       <ul class="list-group" id="calories_index">
         <% @calories.each do |calorie| %>
@@ -210,6 +214,7 @@
     $.get("/api/calories/delete/" + calorie_id + "/user/<%= @current_user.id %>", {api_key: "<%= @current_user.api_key %>"}, function(resp) {
       // Remove calorie index entry
       $('#calorie_item' + calorie_id).remove();
+      check_threshold();
     });
   }
 
