@@ -12,8 +12,14 @@ Rails.application.routes.draw do
 
   get 'index' => 'calories#index'
   get '/api/calories/exceed/:user_id' => 'calories#exceed_expected_calories'
+
   get '/api/calories/:user_id' => 'calories#get_all_calories'
   post '/api/calories/:user_id' => 'calories#create_calorie'
+
+  get '/api/calories/:id/user/:user_id' => 'calories#get_calorie'
+  post '/api/calories/:id/user/:user_id' => 'calories#update_calorie'
+  get '/api/calories/delete/:id/user/:user_id' => 'calories#delete_calorie'
+
   get '/api/calories/expected/:user_id' => 'calories#get_expected_calories'
   post '/api/calories/expected/:user_id' => 'calories#update_expected_calories'
 

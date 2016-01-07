@@ -1,7 +1,7 @@
 ### Calories tracker web app
 * The user must be able to create an account and log in (DONE)
 * When logged in, the user can see a list of his meals and calories (the user enters calories manually, no auto calculations)... (DONE)
-* ...and should be able to edit and delete (TO-DO)
+* ...and should be able to edit and delete (DONE)
 * Each entry has a date, time, text, and number of calories (DONE)
 * Filter by dates from-to, time from-to (e.g., how much calories have I had for lunch each day in the last month, if lunch is between 12:00 and 15:00) (TO-DO)
 * User setting – Expected number of calories per day: When displayed, it goes green if the total for that day is less than the expected number of calories per day, otherwise goes red (DONE)

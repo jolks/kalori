@@ -1,0 +1,20 @@
+<li class="list-group-item" id="calorie_item<%= calorie.id %>">
+  <div class="row">
+    <div class="col-xs-8" id="calorie_description_and_value<%= calorie.id %>">
+      <%= calorie.description %> (<%= calorie.value %>)
+    </div>
+    <div class="col-xs-4">
+      <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#editCalorie" data-calorieid="<%= calorie.id %>">
+        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+      </a>
+      <a class="btn btn-default btn-sm" onclick="delete_calorie(<%= calorie.id %>);">
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="col-xs-12">
+      <small id="calorie_dt<%= calorie.id %>">
+        <%= calorie.updated_at %>
+      </small>
+    </div>
+  </div>
+</li>

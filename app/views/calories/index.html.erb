@@ -23,7 +23,9 @@
     <div class="calories-list col-xs-12">
       <ul class="list-group" id="calories_index">
         <% @calories.each do |calorie| %>
-          <li class="list-group-item"><%= calorie.description %> (<%= calorie.value %>)</li>
+          <%= render partial: "calorie_item", locals: {
+            calorie: calorie
+          } %>
         <% end %>
       </ul>
     </div>
@@ -60,6 +62,34 @@
       </div>
     </div>
 
+    <div class="modal fade" id="editCalorie" tabindex="-1" role="dialog" aria-labelledby="emyModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="emyModalLabel">Edit Calorie</h4>
+          </div>
+          <div class="modal-body">
+
+            <div class="form-group">
+              <label>Number of Calories</label>
+              <input type="number" class="form-control" id="current_calorie_value">
+            </div>
+
+            <div class="form-group">
+              <label>Description</label>
+              <input type="text" class="form-control" id="current_calorie_description">
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" id="update_calorie_button" class="btn btn-primary" onclick="">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
   <div class="col-md-4"></div>
 </div>
@@ -69,6 +99,58 @@
     $('#expected_calories').val(resp['expected_calories']);
     check_threshold();
   });
+
+  $('#editCalorie').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var calorie_id = button.data('calorieid');
+    //console.log('Edit Calorie ' + calorie_id + '!');
+
+    // Get current calorie's value and description
+    $.get("/api/calories/" + calorie_id + "/user/<%= @current_user.id %>", {api_key: "<%= @current_user.api_key %>"}, function(resp) {
+      //console.log(resp);
+      $('#current_calorie_value').val(resp['value']);
+      $('#current_calorie_description').val(resp['description']);
+    });
+
+    // Update modal's content
+    var modal = $(this);
+    modal.find('#update_calorie_button').attr('onclick', "update_calorie(" + calorie_id + ");");
+  });
+
+  function update_calorie(calorie_id) {
+    //console.log(calorie_id);
+    var new_calorie_value = $('#current_calorie_value').val();
+    var new_calorie_description = $('#current_calorie_description').val();
+    //console.log(new_calorie_value + " - " + new_calorie_description);
+
+    // Update calorie
+    $.post("/api/calories/" + calorie_id + "/user/<%= @current_user.id %>", {
+      api_key: "<%= @current_user.api_key %>",
+      value: new_calorie_value,
+      description: new_calorie_description
+    }, function(resp) {
+      //console.log(resp);
+      $('#current_calorie_value').val(resp['value']);
+      $('#current_calorie_description').val(resp['description']);
+
+      // Update calorie index entry
+      $('#calorie_description_and_value' + calorie_id).html(
+        resp['description'] + " (" + resp['value'] + ")"
+      );
+
+      // Update calorie datetime
+      var str_dt = resp['updated_at'];
+      str_dt = str_dt.replace(/T/g, " ");
+      str_dt = str_dt.replace(/\.\d+/g, " ");
+      $('#calorie_dt' + calorie_id).html(str_dt);
+
+      // Check threshold
+      check_threshold();
+    });
+
+    // Close modal
+    $('#editCalorie').modal('hide');
+  }
 
   function update_expected_calories() {
     var expected_calories = $('#expected_calories').val();
@@ -91,8 +173,43 @@
       value: value
     }, function(resp) {
       //console.log(resp);
-      $('#calories_index').append('<li class="list-group-item">' + resp['description'] + ' (' + resp['value'] + ')</li>');
+      var str_dt = resp['updated_at'];
+      str_dt = str_dt.replace(/T/g, " ");
+      str_dt = str_dt.replace(/\.\d+/g, " ");
+
+      var calorie_item = [
+        '<li class="list-group-item" id="calorie_item' + resp['id'] + '">',
+        '<div class="row">',
+        '<div class="col-xs-8" id="calorie_description_and_value' + resp['id'] +'">',
+        resp['description'] + ' (' + resp['value'] + ')',
+        '</div>',
+        '<div class="col-xs-4">',
+        '<a class="btn btn-default btn-sm" data-toggle="modal" data-target="#editCalorie" data-calorieid="' + resp['id'] + '">',
+        '<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>',
+        '</a>',
+        '<a class="btn btn-default btn-sm" onclick="delete_calorie(' + resp['id'] + ');">',
+        '<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>',
+        '</a>',
+        '</div>',
+        '<div class="col-xs-12">',
+        '<small id="calorie_dt' + resp['id'] + '">',
+        str_dt,
+        '</small>',
+        '</div>',
+        '</div>',
+        '</li>'
+      ];
+
+      $('#calories_index').append(calorie_item.join("\n"));
       check_threshold();
+    });
+  }
+
+  function delete_calorie(calorie_id) {
+    // Delete calorie
+    $.get("/api/calories/delete/" + calorie_id + "/user/<%= @current_user.id %>", {api_key: "<%= @current_user.api_key %>"}, function(resp) {
+      // Remove calorie index entry
+      $('#calorie_item' + calorie_id).remove();
     });
   }
 

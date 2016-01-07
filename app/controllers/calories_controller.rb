@@ -9,7 +9,8 @@ class CaloriesController < ApplicationController
   before_action :logged_in_api, only: [
     :get_all_calories,
     :get_expected_calories,
-    :update_expected_calories
+    :update_expected_calories,
+    :get_calorie
   ]
 
   def index
@@ -22,6 +23,11 @@ class CaloriesController < ApplicationController
     render json: @user.present? ? @user.calories : {:message => 'user not found'}
   end
 
+  def get_calorie
+    @calorie = Calory.where(:id => params[:id], :user_id => params[:user_id]).first
+    render json: @calorie.present? ? @calorie.as_json.except('user_id') : {:message => 'calorie not found'}
+  end
+
   def get_expected_calories
     resp = {:expected_calories => 0}
     @user = User.where(:id => params[:user_id]).first
@@ -29,6 +35,13 @@ class CaloriesController < ApplicationController
       resp[:expected_calories] = @user.total_expected_calories
     end
     render json: resp
+  end
+
+  def update_calorie
+    @calorie = Calory.where(:id => params[:id], :user_id => params[:user_id]).first
+    @calorie.update_attribute(:value, params['value'])
+    @calorie.update_attribute(:description, params['description'])
+    render json: @calorie.present? ? @calorie.as_json.except('user_id') : {:message => 'calorie not found'}
   end
 
   def update_expected_calories
@@ -51,6 +64,12 @@ class CaloriesController < ApplicationController
       status_code = 200
     end
     render json: resp, status: status_code
+  end
+
+  def delete_calorie
+    @calorie = Calory.where(:id => params[:id], :user_id => params[:user_id]).first
+    @calorie.destroy
+    render nothing: true
   end
 
   def exceed_expected_calories
