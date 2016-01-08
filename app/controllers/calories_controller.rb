@@ -8,9 +8,14 @@ class CaloriesController < ApplicationController
   # API verified through API key.
   before_action :logged_in_api, only: [
     :get_all_calories,
+    :filter_calories,
+    :get_calorie,
     :get_expected_calories,
+    :update_calorie,
     :update_expected_calories,
-    :get_calorie
+    :create_calorie,
+    :delete_calorie,
+    :exceed_expected_calories
   ]
 
   def index
