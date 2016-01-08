@@ -12,7 +12,7 @@
         For green, background-color: #adff5f
         For red, background-color: #dd1919; color: white
       -->
-      <input type="text" class="form-control" id="expected_calories" onchange="update_expected_calories();" placeholder="Expected Calories" style="">
+      <input type="text" class="form-control" id="expected_calories" onchange="update_expected_calories(this);" placeholder="Expected Calories" style="">
     </div>
     <div class="col-xs-6 text-right">
       <%= link_to logout_path, method: "delete", class: "btn btn-default" do %>
@@ -25,7 +25,7 @@
 
         <div class="form-inline form-group">
           <label for="date_select">Date</label>
-          <input type="text" class="form-control" id="date_select">
+          <input type="text" class="form-control" id="date_select" onchange="filter_calories(this);">
         </div>
 
     </div>
@@ -34,7 +34,7 @@
       <div class="col-xs-6">
         <div class="form-inline form-group">
           <label for="from_time_select">From</label>
-          <select class="form-control" id="from_time_select">
+          <select class="form-control" id="from_time_select" onchange="filter_calories(this);">
             <% (0..23).to_a.each do |i| %>
               <option value="<%= i %>">
                 <% if i < 10 %>
@@ -51,7 +51,7 @@
       <div class="col-xs-6">
         <div class="form-inline form-group">
           <label for="to_time_select">To</label>
-          <select class="form-control" id="to_time_select">
+          <select class="form-control" id="to_time_select" onchange="filter_calories(this);">
             <% (0..23).to_a.each do |i| %>
               <option value="<%= i %>">
                 <% if i < 10 %>
@@ -171,6 +171,13 @@
     modal.find('#update_calorie_button').attr('onclick', "update_calorie(" + calorie_id + ");");
   });
 
+  function filter_calories(tag) {
+    console.log(tag.id + " = " + tag.value);
+    // Clear calories index
+    $('#calories_index').empty();
+
+  }
+
   function update_calorie(calorie_id) {
     //console.log(calorie_id);
     var new_calorie_value = $('#current_calorie_value').val();
@@ -206,8 +213,8 @@
     $('#editCalorie').modal('hide');
   }
 
-  function update_expected_calories() {
-    var expected_calories = $('#expected_calories').val();
+  function update_expected_calories(tag) {
+    var expected_calories = tag.value;
     //console.log(expected_calories);
     $.post("/api/calories/expected/<%= @current_user.id %>", {
       api_key: "<%= @current_user.api_key %>",

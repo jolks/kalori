@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  # Better use mostly GET and POST for API because
+  # some versions of browsers do not support all HTTP methods.
+
   root 'sessions#new'
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
@@ -12,6 +15,8 @@ Rails.application.routes.draw do
 
   get 'index' => 'calories#index'
   get '/api/calories/exceed/:user_id' => 'calories#exceed_expected_calories'
+
+  get '/api/calories/filter/:user_id' => 'calories#filter_calories'
 
   get '/api/calories/:user_id' => 'calories#get_all_calories'
   post '/api/calories/:user_id' => 'calories#create_calorie'

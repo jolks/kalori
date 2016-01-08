@@ -23,6 +23,12 @@ class CaloriesController < ApplicationController
     render json: @user.present? ? @user.calories : {:message => 'user not found'}
   end
 
+  def filter_calories
+    #@calories = Calory.filter_by()
+    @calories = Calory.where(:user_id => params[:user_id])
+    render json: @calories.present? ? @calories : []
+  end
+
   def get_calorie
     @calorie = Calory.where(:id => params[:id], :user_id => params[:user_id]).first
     render json: @calorie.present? ? @calorie.as_json.except('user_id') : {:message => 'calorie not found'}
