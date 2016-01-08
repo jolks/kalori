@@ -143,7 +143,9 @@
 </div>
 <script>
   $(function() {
-    $('#date_select').datepicker();
+    $('#date_select').datepicker({
+      dateFormat: "yy-mm-dd"
+    });
   });
 
   $.get("/api/calories/expected/<%= @current_user.id %>", {api_key: "<%= @current_user.api_key %>"}, function(resp) {
