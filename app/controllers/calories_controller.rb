@@ -19,7 +19,8 @@ class CaloriesController < ApplicationController
   ]
 
   def index
-    @calories = @current_user.calories
+    # Per day basis!
+    @calories = @current_user.calories.where('created_at BETWEEN ? AND ?', Date.today.to_time, Date.tomorrow.to_time)
   end
 
   # verify with API key
@@ -29,8 +30,12 @@ class CaloriesController < ApplicationController
   end
 
   def filter_calories
-    #@calories = Calory.filter_by()
-    @calories = Calory.where(:user_id => params[:user_id])
+    @calories = Calory.where(:user_id => params[:user_id]).filter_by_date_hour(
+      params[:date_from],
+      params[:time_from],
+      params[:date_to],
+      params[:time_to]
+    )
     render json: @calories.present? ? @calories : []
   end
 
@@ -86,7 +91,8 @@ class CaloriesController < ApplicationController
   def exceed_expected_calories
     resp = {:exceed => false}
     @user = User.where(:id => params[:user_id]).first
-    if @user.calories.sum('value') > @user.total_expected_calories
+    # Per day basis!
+    if @user.calories.where('created_at BETWEEN ? AND ?', Date.today.to_time, Date.tomorrow.to_time).sum('value') > @user.total_expected_calories
       resp[:exceed] = true
     end
     render json: resp
