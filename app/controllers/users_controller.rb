@@ -11,7 +11,10 @@ class UsersController < ApplicationController
     @user.api_key = SecureRandom.hex
     if @user.valid?
       @user.save
-      redirect_to login_path
+      log_in @user
+      @user.update_attribute(:is_login, true)
+      redirect_to index_path
+      #redirect_to login_path
     else
       render 'new'
     end
