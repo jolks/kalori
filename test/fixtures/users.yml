@@ -4,8 +4,18 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+
+# is_login is only set to TRUE at controller level
+u1:
+  id: 1
+  username: u1
+  email: u1@test.com
+  password_digest: anyrandomstring
+  api_key: abcdefg
+
+u2:
+  id: 2
+  username: u2
+  email: u2@test.com
+  password_digest: anyrandomstring
+  api_key: abcdefgh

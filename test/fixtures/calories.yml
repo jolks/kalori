@@ -4,8 +4,34 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+c1:
+  id: 1
+  user: u1
+  value: 100
+  description: coffee
+  created_at: <%= Time.new(2016, 1, 1, 12, 0) %>
+  updated_at: <%= Time.new(2016, 1, 1, 12, 0) %>
+
+c2:
+  id: 2
+  user: u1
+  value: 1200
+  description: cake
+  created_at: <%= Time.new(2016, 1, 2, 14, 13) %>
+  updated_at: <%= Time.new(2016, 1, 2, 14, 13) %>
+
+c3:
+  id: 3
+  user: u1
+  value: 500
+  description: mocha coffee
+  created_at: <%= Time.new(2016, 1, 1, 17, 5) %>
+  updated_at: <%= Time.new(2016, 1, 1, 17, 5) %>
+
+c4:
+  id: 4
+  user: u2
+  value: 1200
+  description: cheese cake
+  created_at: <%= Time.new(2016, 1, 2, 14, 13) %>
+  updated_at: <%= Time.new(2016, 1, 2, 14, 13) %>
