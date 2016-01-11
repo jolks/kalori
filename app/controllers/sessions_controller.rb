@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   # Since user's authentication is an API,
   # Cross-Site Request Forgery (CSRF) token check is skipped.
-  # Login limit implementation is skipped. 
+  # Login limit implementation is skipped.
   skip_before_action :verify_authenticity_token
 
   # Unique API key and User ID (users table id column) are used to login.
@@ -25,6 +25,7 @@ class SessionsController < ApplicationController
       user.update_attribute(:is_login, true)
       redirect_to index_path
     else
+      # Using render in case any error flash message is to shown in future. 
       render 'new'
     end # END IF-ELSE login
   end

@@ -9,7 +9,7 @@
 * Minimal UI/UX design is needed (DONE)
 * Most actions need to be done client side using AJAX, refreshing the page is not acceptable (DONE)
 * REST API. Make it possible to perform all user actions via the API, including authentication. (DONE)
-* Write tests! Decide which areas are worth testing and which kind of tests (unit, integration etc.) to utilize. Run `./scripts/run_tests.sh` at project root (TO-DO)
-  - Unit tests (DONE)
+* Write tests! Decide which areas are worth testing and which kind of tests (unit, integration etc.) to utilize. Run `./scripts/run_tests.sh` or `rake test` at project root (DONE)
+  - Unit tests
   - Functional tests
   - Integration tests

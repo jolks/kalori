@@ -21,6 +21,7 @@ class CaloriesController < ApplicationController
   def index
     # Per day basis!
     @calories = @current_user.calories.where('created_at BETWEEN ? AND ?', Date.today.to_time, Date.tomorrow.to_time)
+    @calories_count = @calories.count
   end
 
   # verify with API key

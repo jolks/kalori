@@ -5,17 +5,19 @@
 # below each fixture, per the syntax in the comments below
 #
 
-# is_login is only set to TRUE at controller level
+# password = 123456789
+# To do functional test on CaloriesController, is_login must be TRUE
 u1:
   id: 1
   username: u1
   email: u1@test.com
-  password_digest: anyrandomstring
+  password_digest: $2a$10$TYZS3yTTvDtr..NPoI8x3eE3CPrknRG1F2xYv.7L9Ba5dl6neFp4C
   api_key: abcdefg
+  is_login: true
 
 u2:
   id: 2
   username: u2
   email: u2@test.com
-  password_digest: anyrandomstring
+  password_digest: $2a$10$TYZS3yTTvDtr..NPoI8x3eE3CPrknRG1F2xYv.7L9Ba5dl6neFp4C
   api_key: abcdefgh
